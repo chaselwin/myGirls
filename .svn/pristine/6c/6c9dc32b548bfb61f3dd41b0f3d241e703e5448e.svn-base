@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chasel.girl.dao.IImageDao">
+  
+  <sql id="baseSql">
+  		SELECT 
+	  	i.id id,
+	  	i.image_type type,
+	  	i.image_name name,
+	  	i.image_object_name objectName,
+	  	i.image_memo memo,
+	  	i.image_create_time createTime,
+	  	i.image_creator creator,
+	  	i.image_update_time updateTime,
+	  	i.image_updator updator
+  	FROM t_image i
+  </sql>
+  
+  <select id="findAll" resultType="com.chasel.girl.vo.Image">
+  	<include refid="baseSql"></include>
+  	<where>
+  		1=1
+	  	<if test='id!=null and id!=""'>
+	  		AND id=#{id,jdbcType=INTEGER}
+	  	</if>
+	  	<if test='type!=null and type!=""'>
+	  		AND image_type LIKE CONCAT(CONCAT('%',#{type,jdbcType=VARCHAR}),'%')
+	  	</if>
+	  	<if test='name!=null and name!=""'>
+	  		AND image_name LIKE CONCAT(CONCAT('%',#{name,jdbcType=VARCHAR}),'%')
+	  	</if>
+	  	<if test='memo!=null and memo!=""'>
+	  		AND image_memo LIKE CONCAT(CONCAT('%',#{memo,jdbcType=VARCHAR}),'%')
+	  	</if>
+	  	<if test='creator!=null and creator!=""'>
+	  		AND image_creator LIKE CONCAT(CONCAT('%',#{creator,jdbcType=VARCHAR}),'%')
+	  	</if>
+  	</where>
+  	ORDER BY i.image_create_time DESC
+  </select>
+  
+  <insert id="save" parameterType="com.chasel.girl.vo.Image">
+  	INSERT INTO t_image
+  	(
+		image_type,	 
+	  	image_name,
+	  	image_object_name,
+	  	image_memo,
+	  	image_create_time,
+	  	image_creator,
+	  	image_update_time,
+	  	image_updator
+  	)
+  	VALUES
+  	(
+	  	#{type,jdbcType=VARCHAR},
+	  	#{name,jdbcType=VARCHAR},
+	  	#{objectName,jdbcType=VARCHAR},
+		#{memo,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{creator,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{updator,jdbcType=VARCHAR}
+	)
+  </insert>
+  
+  <delete id="delete" parameterType="int">
+  	DELETE FROM t_image WHERE id=#{id}
+  </delete>
+  
+  <update id="update" parameterType="com.chasel.girl.vo.Image">
+  	UPDATE t_image
+  	<set>
+	  	image_type=#{type,jdbcType=VARCHAR},
+	  	image_memo=#{memo,jdbcType=VARCHAR},
+	  	<if test='updator!=null and updator!=""'>image_updator=#{updator,jdbcType=VARCHAR},</if>
+	  	image_update_time=#{updateTime,jdbcType=TIMESTAMP}
+	</set>
+  	WHERE id=#{id}
+  </update>
+  
+  <select id="findById" parameterType="int" resultType="com.chasel.girl.vo.Image">
+  	<include refid="baseSql"></include>
+	WHERE i.id=#{id}
+  </select>
+ 
+</mapper>

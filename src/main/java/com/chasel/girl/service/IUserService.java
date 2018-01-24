@@ -1,0 +1,26 @@
+package com.chasel.girl.service;
+
+import javax.servlet.http.HttpSession;
+
+import com.chasel.girl.exception.DuplicateRecordException;
+import com.chasel.girl.vo.User;
+import com.github.pagehelper.PageInfo;
+
+public interface IUserService extends IBaseService<User> {
+
+	public String login(String account, String password, HttpSession httpSession) throws DuplicateRecordException;
+
+	public PageInfo<User> findAll(User user, PageInfo<User> pageInfo) throws DuplicateRecordException;
+
+	public void save(User user) throws DuplicateRecordException;
+
+	public void delete(int id) throws DuplicateRecordException;
+
+	public void update(User user) throws DuplicateRecordException;
+
+	public User findById(int id) throws DuplicateRecordException;
+
+	public String isLogin(HttpSession httpSession) throws DuplicateRecordException;
+
+	public void logout(HttpSession httpSession);
+}

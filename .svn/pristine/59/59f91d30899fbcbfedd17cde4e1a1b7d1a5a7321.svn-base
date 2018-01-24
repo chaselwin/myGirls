@@ -1,0 +1,56 @@
+#mybatis配置
+mybatis:
+#    annotationClass: org.springframework.boot.mybatis.autoconfigure.Mapper
+#    configLocation: "mybatis-configuration.xml"
+    mapper-locations: "classpath:com/chasel/girl/dao/*.xml" 
+# If the 'spring.mybatis.configLocation' property is used when the 'spring.mybatis.configurationProperties' property is ignored.
+    configuration-properties:
+      aggressiveLazyLoading: false
+      lazyLoadingEnabled: true
+      lazyLoadTriggerMethods: ""
+      mapUnderscoreToCamelCase: true
+
+spring:
+    http:    
+        multipart:
+            maxFileSize: 10Mb
+            maxRequestSize: 50Mb
+
+girl:
+    app:
+       contextPath: /girl
+       port: 8080
+   
+minio:
+    url: http://www.said.com
+    sort: 9000
+    accesskey: chasel
+    secretkey: chasel#123
+    bucket: girl
+
+logging.level.org.springframework.web.servlet.DispatherServlet: DEBUG
+logging.level.com.chasel.girl.dao: DEBUG
+    
+dbcp:
+    datasource:
+       url: jdbc:mysql://localhost:3306/girl?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=false
+       username: root
+       password: chasel#123
+       driverClassName: com.mysql.jdbc.Driver
+       #初试连接数
+       initialSize: 30
+       #最大活跃数
+       maxTotal: 30
+       #最大idle数
+       maxIdle: 10
+       #最小idle数
+       minIdle: 5
+       #最长等待时间(毫秒)
+       maxWaitMillis: 1000
+       #程序中的连接不使用后是否被连接池回收(该版本要使用removeAbandonedOnMaintenance和removeAbandonedOnBorrow)
+       #removeAbandoned: true
+       removeAbandonedOnMaintenance: true
+       removeAbandonedOnBorrow: true
+       #连接在所指定的秒数内未使用才会被删除(秒)(为配合测试程序才配置为1秒)
+       removeAbandonedTimeout: 1
+
