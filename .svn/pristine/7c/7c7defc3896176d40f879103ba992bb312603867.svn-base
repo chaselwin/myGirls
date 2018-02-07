@@ -5,18 +5,14 @@
   <sql id="baseSql">
   		SELECT 
 	  	i.id id,
-	  	(select t.id from t_type t where t.id=i.image_type) typeId,
 	  	(select t.type from t_type t where t.id=i.image_type) type,
 	  	i.image_name name,
-	  	i.image_width width,
-	  	i.image_height height,
 	  	i.image_object_name objectName,
 	  	i.image_memo memo,
-	  	i.text_height textHeight,
 	  	i.image_create_time createTime,
-	  	(select u.name from t_user u where u.id=i.image_creator) creator,
+	  	i.image_creator creator,
 	  	i.image_update_time updateTime,
-	  	(select u.name from t_user u where u.id=i.image_updator) updator
+	  	i.image_updator updator
   	FROM t_image i
   </sql>
   
@@ -37,7 +33,7 @@
 	  		AND image_memo LIKE CONCAT(CONCAT('%',#{memo,jdbcType=VARCHAR}),'%')
 	  	</if>
 	  	<if test='creator!=null and creator!=""'>
-	  		AND image_creator in (select u.id from t_user u where u.name LIKE CONCAT(CONCAT('%',#{creator,jdbcType=VARCHAR}),'%'))
+	  		AND image_creator LIKE CONCAT(CONCAT('%',#{creator,jdbcType=VARCHAR}),'%')
 	  	</if>
   	</where>
   	ORDER BY i.image_create_time DESC
@@ -48,11 +44,8 @@
   	(
 		image_type,	 
 	  	image_name,
-	  	image_width,
-	  	image_height,
 	  	image_object_name,
 	  	image_memo,
-	  	text_height,
 	  	image_create_time,
 	  	image_creator,
 	  	image_update_time,
@@ -62,11 +55,8 @@
   	(
 	  	#{type,jdbcType=VARCHAR},
 	  	#{name,jdbcType=VARCHAR},
-	  	#{width},
-	  	#{height},
 	  	#{objectName,jdbcType=VARCHAR},
 		#{memo,jdbcType=VARCHAR},
-		#{textHeight},
 		#{createTime,jdbcType=TIMESTAMP},
 		#{creator,jdbcType=VARCHAR},
 		#{updateTime,jdbcType=TIMESTAMP},
@@ -81,14 +71,10 @@
   <update id="update" parameterType="com.chasel.girl.vo.Image">
   	UPDATE t_image
   	<set>
-	  	image_type=#{typeId,jdbcType=VARCHAR},
+	  	image_type=#{type,jdbcType=VARCHAR},
+	  	image_memo=#{memo,jdbcType=VARCHAR},
 	  	<if test='updator!=null and updator!=""'>image_updator=#{updator,jdbcType=VARCHAR},</if>
-	  	<if test='createTime!=null'>image_create_time=#{createTime},</if>
-	  	<if test='updateTime!=null'>image_update_time=#{updateTime},</if>
-	  	image_width=#{width},
-	  	image_height=#{height},
-	  	text_height=#{textHeight},
-	  	image_memo=#{memo,jdbcType=VARCHAR}
+	  	image_update_time=#{updateTime,jdbcType=TIMESTAMP}
 	</set>
   	WHERE id=#{id}
   </update>

@@ -38,6 +38,7 @@ public class ImageController extends BaseController {
 	private IImageService imageService;
 	@Autowired
 	private IImageDao imageDao;
+
 	/**
 	 * 分页查询
 	 * 
@@ -79,9 +80,9 @@ public class ImageController extends BaseController {
 	 */
 	@ApiOperation("上传图片")
 	@RequestMapping(path = "/add", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody ResponseResult save(@RequestParam String typeId,@RequestParam String memo,@RequestParam MultipartFile file,@RequestParam double width,@RequestParam double height,@RequestParam double textHeight) {
+	public @ResponseBody ResponseResult save(@RequestParam String type,@RequestParam String memo,@RequestParam MultipartFile file) {
 
-		return process(() -> {imageService.save(file, typeId, memo,width,height,textHeight);}, ADD_SUCCESS, ADD_FAIL);
+		return process(() -> {imageService.save(file, type, memo);}, ADD_SUCCESS, ADD_FAIL);
 	}
 
 	/** 删除文件 **/
@@ -110,13 +111,6 @@ public class ImageController extends BaseController {
 	public @ResponseBody ResponseResult getType() {
 
 		return valuez(() -> {return imageDao.getType();}, QUERY_SUCCESS, QUERY_FAIL);
-	}
-	
-	@ApiOperation("获取歌曲url")
-	@RequestMapping(path = "/getMusic", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody ResponseResult getMusic() {
-
-		return valuez(() -> {return imageService.getMusic();}, QUERY_SUCCESS, QUERY_FAIL);
 	}
 
 }

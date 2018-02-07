@@ -79,9 +79,9 @@ public class ImageController extends BaseController {
 	 */
 	@ApiOperation("上传图片")
 	@RequestMapping(path = "/add", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody ResponseResult save(@RequestParam String typeId,@RequestParam String memo,@RequestParam MultipartFile file,@RequestParam double width,@RequestParam double height,@RequestParam double textHeight) {
+	public @ResponseBody ResponseResult save(@RequestParam String typeId,@RequestParam String memo,@RequestParam MultipartFile file) {
 
-		return process(() -> {imageService.save(file, typeId, memo,width,height,textHeight);}, ADD_SUCCESS, ADD_FAIL);
+		return process(() -> {imageService.save(file, typeId, memo);}, ADD_SUCCESS, ADD_FAIL);
 	}
 
 	/** 删除文件 **/

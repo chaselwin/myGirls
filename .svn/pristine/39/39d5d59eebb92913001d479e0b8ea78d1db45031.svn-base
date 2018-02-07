@@ -2,9 +2,7 @@ package com.chasel.girl.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,7 @@ public class ImageService implements IImageService {
 	public static final String FILE_NULL = "请选择文件";
 	public static final String FILE_SIZE = "请选择小于10M图片";
 	public static final String UPLOAD_ERROR = "上传图片出错";
+
 	@Autowired
 	private IImageDao imageDao;
 
@@ -36,7 +35,7 @@ public class ImageService implements IImageService {
 	private IMinioService minioService;
 	
 	@Override
-	public void save(MultipartFile file, String typeId,String memo,double width, double height,double textHeight)throws DuplicateRecordException {
+	public void save(MultipartFile file, String typeId,String memo)throws DuplicateRecordException {
 		if (file == null) {
 			throw new DuplicateRecordException(CodeConstants.ERR_CODE_99, FILE_NULL);
 		}
@@ -51,11 +50,8 @@ public class ImageService implements IImageService {
 				Image image = new Image();
 				image.setObjectName(objectName);
 				image.setName(file.getOriginalFilename());
-				image.setWidth(width);
-				image.setHeight(height);
 				image.setType(typeId);
 				image.setMemo(memo);
-				image.setTextHeight(textHeight);
 				image.setCreator(ResourceUtil.getSessionName());
 				image.setCreateTime(new Timestamp(System.currentTimeMillis()));
 				image.setUpdator(ResourceUtil.getSessionName());
@@ -126,35 +122,6 @@ public class ImageService implements IImageService {
 		}
 		pageInfo2.setList(imageList);
 		return pageInfo2;
-	}
-
-	@Override
-	public List<Map<String, Object>> getMusic(){
-		List<Map<String, Object>> list = new ArrayList<>();
-		String luckyUrl = minioService.getUrl("/static/lucky.mp3");
-		String lightUrl = minioService.getUrl("/static/light.mp3");
-		String summerLoveUrl = minioService.getUrl("/static/summerLove.mp3");
-		for(int i=0;i<3;i++){
-			Map<String, Object> map=new HashMap<>();
-			map.put("id", i+1);
-			if (i==0) {
-				map.put("cover", "../images/indexMusic1.jpg");
-				map.put("path", luckyUrl);
-			}
-			else if (i==1) {
-				map.put("cover", "../images/indexMusic2.png");
-				map.put("path", lightUrl);
-			}
-			else if (i==2) {
-				map.put("cover", "../images/indexMusic3.png");
-				map.put("path", summerLoveUrl);
-			}
-			else{
-				continue;
-			}
-			list.add(map);
-		}
-		return list;
 	}
 
 }

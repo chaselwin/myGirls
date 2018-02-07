@@ -11,7 +11,7 @@ import com.github.pagehelper.PageInfo;
 
 public interface IImageService extends IBaseService<Image> {
 
-	public void save(MultipartFile file, String typeId, String memo, double width, double height, double textHeight)throws DuplicateRecordException;
+	public void save(MultipartFile file, String typeId, String memo)throws DuplicateRecordException;
 
 	public void delete(int id) throws DuplicateRecordException;
 

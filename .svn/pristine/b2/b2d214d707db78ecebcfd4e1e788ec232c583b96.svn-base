@@ -36,7 +36,7 @@ public class ImageService implements IImageService {
 	private IMinioService minioService;
 	
 	@Override
-	public void save(MultipartFile file, String typeId,String memo,double width, double height,double textHeight)throws DuplicateRecordException {
+	public void save(MultipartFile file, String typeId,String memo)throws DuplicateRecordException {
 		if (file == null) {
 			throw new DuplicateRecordException(CodeConstants.ERR_CODE_99, FILE_NULL);
 		}
@@ -51,11 +51,8 @@ public class ImageService implements IImageService {
 				Image image = new Image();
 				image.setObjectName(objectName);
 				image.setName(file.getOriginalFilename());
-				image.setWidth(width);
-				image.setHeight(height);
 				image.setType(typeId);
 				image.setMemo(memo);
-				image.setTextHeight(textHeight);
 				image.setCreator(ResourceUtil.getSessionName());
 				image.setCreateTime(new Timestamp(System.currentTimeMillis()));
 				image.setUpdator(ResourceUtil.getSessionName());

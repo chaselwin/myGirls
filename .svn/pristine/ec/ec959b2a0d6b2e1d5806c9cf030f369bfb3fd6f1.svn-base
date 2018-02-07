@@ -9,11 +9,8 @@ public class Image extends Base implements Serializable {
 	private int typeId;
 	private String type;
 	private String name;
-	private double width;
-	private double height;
 	private String objectName;
 	private String memo;
-	private double textHeight;
 	private String url;
 	
 	public Image() {
@@ -89,35 +86,10 @@ public class Image extends Base implements Serializable {
 		this.typeId = typeId;
 	}
 
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	public double getHeight() {
-		return height;
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
-	public double getTextHeight() {
-		return textHeight;
-	}
-
-	public void setTextHeight(double textHeight) {
-		this.textHeight = textHeight;
-	}
-
 	@Override
 	public String toString() {
-		return "Image [id=" + id + ", typeId=" + typeId + ", type=" + type + ", name=" + name + ", width=" + width
-				+ ", height=" + height + ", objectName=" + objectName + ", memo=" + memo + ", textHeight=" + textHeight
-				+ ", url=" + url + "]";
+		return "Image [id=" + id + ", typeId=" + typeId + ", type=" + type + ", name=" + name + ", objectName="
+				+ objectName + ", memo=" + memo + ", url=" + url + "]";
 	}
 
 }
